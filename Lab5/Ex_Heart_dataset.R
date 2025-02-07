@@ -89,3 +89,61 @@ print(new_df)
 f=subset(df,df$MaxHR>150) #subset containing only MaxHR
 print(f)
 write.csv(f,file="C:/Users/Aritri Baidya/Downloads/lab5_new_heart_dataset.csv")
+#Ex-5
+df$ChestPain=factor(df$ChestPain,levels=c("typical","asymptomatic", "nonanginal", "nontypical" ))
+is.factor(df$ChestPain)  #to check if it is a factor
+print(levels(df$ChestPain)) #printing the levels
+print(nlevels(df$ChestPain)) #levels=4
+df$Thal=factor(df$Thal,levels=c('fixed','normal','reversable'))
+is.factor(df$Thal)  #to check if it is a factor
+print(levels(df$Thal)) #printing the levels
+print(nlevels(df$Thal)) #levels=3
+df$AHD=factor(df$AHD,levels=c('Yes','No'))
+is.factor(df$AHD)  #to check if it is a factor
+print(levels(df$AHD)) #printing the levels
+print(nlevels(df$AHD)) #levels=2
+
+
+#Ex6
+temp=gl(3,10,303,labels=c('Hot','Cold','Lukewarm')) #creating a new column with labels=hot,cold and lukewarm
+print(temp)
+newdataframe=data.frame(df,temp) #adding the new column to the dataframe
+print(newdataframe)
+new=cbind(df,temp) #2nd method to do the above
+print(new)
+
+#Ex7
+tapply(df$RestBP, df$Chol, mean) #to take out the mean of the 2 columns
+tapply(df$RestBP, df$Chol, mean,trim=0.1) #trim helps in removing the outliers i.e when trim=0.1, 10% high and low values are discarded
+
+#Ex8
+print(pmin(df$RestBP,df$Chol,df$MaxHR)) #gives the minimum value along 3 parallel columns
+print(pmax(df$RestBP,df$Chol,df$MaxHR)) #gives the maximum value along 3 parallel columns
+
+#Ex9
+ranks=rank(df$RestBP) #to get the rank of the column
+sorted=sort(df$RestBP) #to sort the column
+ordered=order(df$RestBP) #gives indices of sorted column
+view=data.frame(df$RestBP,ranks,sorted,ordered) #adding the sorted,ordered and rank columns to the dataframe
+print(view)
+output=data.frame(df$Chol,df$RestBP,ordered) #adding the ordered column from previous along with diagnosis and gtv columns
+print(output)
+write.csv(output,file="/home/ibab/Downloads/lab4_ordered_data_BrainCancer.csv") #writing the subset to a new file
+
+#Ex10
+filter1=df[1:6,3:8] #extracting rows from 1-6 and columns from 3-8
+filter1mat=as.matrix(filter1) #printing the above extracted rows and columns as a matrix
+print(filter1mat)
+print(class(filter1mat)) #to get the class
+print(mode(filter1mat)) #to get the mode
+print(attributes(filter1mat)) #to get the attributes
+newcol=df$RestBP+df$Chol+df$MaxHR #creating a new column
+newcoladded=data.frame(df,newcol) #adding the new column to the exsisting dataframe
+print(newcoladded)
+newcoladded2=cbind(df,newcol) #2nd method
+print(newcoladded2)
+filter4=df[c(26,35),] #creating a subset of 26th and 35th rows
+newrowadded=rbind(df,filter4) #new row created using the above subset
+print(newrowadded)
+print(dim(newrowadded)) #printing the dimensions of the new dataframe
+print(dim(df)) #the dimensions of original dataset
